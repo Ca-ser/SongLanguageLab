@@ -1,0 +1,10 @@
+# Local tooling and build outputs
+client/.dart_tool/
+client/build/
+client/.flutter-plugins-dependencies
+client/.idea/
+client/*.iml
+client/android/local.properties
+client/**/ephemeral/
+*.log
+.superpowers/
