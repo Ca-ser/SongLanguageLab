@@ -1,0 +1,13 @@
+﻿[project]
+name = "song-language-audio"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "av>=12,<19",
+    "faster-whisper>=1.2,<2",
+    "uvicorn>=0.34,<1",
+]
+
+[dependency-groups]
+dev = ["httpx>=0.28,<1"]

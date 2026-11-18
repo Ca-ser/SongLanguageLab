@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../data/library_store.dart';
 import '../features/library/library_page.dart';
 
 class SongLanguageApp extends StatelessWidget {
-  const SongLanguageApp({super.key});
+  const SongLanguageApp({super.key, this.openLibrary});
+
+  final Future<LibraryStore> Function()? openLibrary;
+
   @override
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -12,6 +16,6 @@ class SongLanguageApp extends StatelessWidget {
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       useMaterial3: true,
     ),
-    home: const LibraryPage(),
+    home: LibraryPage(openLibrary: openLibrary),
   );
 }

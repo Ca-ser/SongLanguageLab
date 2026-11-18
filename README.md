@@ -1,41 +1,30 @@
-# 歌语 · Song Language Lab
+﻿# 歌语 · Song Language Lab
 
-用于边学边开发的 Flutter + Dart 歌曲语言学习项目。
+歌曲语言练习应用。每首歌可保存本地音频、多份歌词和各版本的练习进度。
 
-## 开始
-在桌面 SongLanguageLab 文件夹打开 PowerShell：
+## 本机 Web 测试
 
-```powershell
-.\scripts\doctor.ps1
-.\scripts\run-web.ps1
-```
+打开 http://127.0.0.1:8787/。请一直使用这个地址和同一个浏览器配置文件。浏览器按站点地址保存数据，切换端口或清除站点数据会看到另一个歌曲库。
 
-或用 VS Code 打开 client，选择 Chrome/Edge 后按 F5。项目已配置现有 SDK 路径 C:\src\flutter。无需另装 Dart。
+如需重新启动，从项目根目录在 PowerShell 执行：
 
-## 首版
-- 原创示例歌词、上一句/下一句、跟读指引和进度。
-- UTF-8 LRC/TXT 本地导入，多时间戳展开与排序。
-- 音频文件选择入口，仅记录当前会话文件名。
-- 文件不上传；关闭或刷新页面后导入和进度不保留。
-- 尚未实现真实播放、逐句循环、录音、自动提取或数据库。
+    powershell -ExecutionPolicy Bypass -File .\scripts\run-test.ps1 -Build
 
-## 学习顺序
-1. client/lib/main.dart：应用从哪里开始。
-2. client/lib/domain：理解数据模型和纯函数解析。
-3. client/lib/features/library：文件选择与错误提示。
-4. client/lib/features/practice：有状态组件和按钮。
-5. client/test：修改解析器，再运行测试。
+第一次需要 Flutter、uv 和 Python 3.12。脚本构建 Web 并启动 FastAPI；停止时在终端按 Ctrl+C。已有 Web 构建时，可以省略 -Build。
 
-```powershell
-cd client
-C:\src\flutter\bin\flutter.bat pub get
-C:\src\flutter\bin\flutter.bat analyze
-C:\src\flutter\bin\flutter.bat test
-C:\src\flutter\bin\flutter.bat build web
-```
+## 试用
 
-## 平台限制
-Web 为本机首个验证目标。Android 尚缺 SDK：安装 Android Studio，通过 SDK Manager 配置 SDK、命令行工具及模拟器，执行 flutter doctor --android-licenses，再连接设备。Windows 原生构建尚缺 Visual Studio（不是 VS Code），需要 Desktop development with C++ 工作负载。iOS/macOS 需在 Mac 安装 Xcode 后构建；Windows 无法在本机完成这两者构建。实际结果见 docs/verification.md。
+1. 新建歌曲，选择一个 MP3 或 WAV，再导入 UTF-8 LRC 或 TXT。
+2. 导入第二份歌词。两个版本都会保留，使用按钮可以切换，删除只作用于指定版本。
+3. 在 LRC 版本中切换练习句，试用循环当前句和播放速度。TXT 可以逐句阅读和跟读。
+4. 点击跟读录音，授权麦克风后录一段并回放。录音限 1 分钟，离开该句后丢弃。
+5. 有音频时可点击自动提取歌词。Whisper 模型在本机进行转写，生成一份可选草稿。伴奏较响或唱词不清时，请使用人工校对的歌词。
+6. 刷新浏览器，确认导入的歌曲、歌词版本和练习进度仍在。本机和各浏览器的歌曲库独立。
 
-## 后续路线
-真实音频播放和逐句循环 → 本地歌曲存储 → 录音跟读 → 独立 Python + FastAPI 转写及时间对齐服务。Web 文件访问与原生文件系统有差异，后续持久化需分别设计。
+音频上限为 25 MB，每份歌词文件上限为 1 MB。歌曲和歌词默认保存在浏览器 IndexedDB 中。自动提取只在明确确认后把音频交给本机服务处理。
+
+## 开发
+
+客户端在 client/，测试在 client/test/，本机转写服务在 services/audio/。Flutter 测试和静态检查可从 client/ 运行；后端测试从 services/audio/ 执行 uv run --locked python -m unittest -v。
+
+本次交付面向 Windows 上的浏览器测试。Android、iOS、Windows 原生和 macOS 仍需各自的工具链和真机验证。
