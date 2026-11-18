@@ -9,7 +9,7 @@ class SongLanguageApp extends StatelessWidget {
     debugShowCheckedModeBanner: false,
     title: '歌语',
     theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff34675c)),
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       useMaterial3: true,
     ),
     home: const LibraryPage(),
